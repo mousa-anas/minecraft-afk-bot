@@ -1,11 +1,21 @@
 const mineflayer = require('mineflayer');
+const http = require('http');
 
-// Read settings from environment variables (with defaults)
-const serverIP = process.env.SERVER_IP || 'servivelcraft.aternos.me';
-const serverPort = parseInt(process.env.SERVER_PORT) || 42978;
+// Configuration from environment variables (with defaults)
+const serverIP = process.env.SERVER_IP || 'localhost';
+const serverPort = parseInt(process.env.SERVER_PORT) || 25565;
 const botUsername = process.env.BOT_USERNAME || 'AFKBot';
 
-// Create bot in offline mode (cracked servers)
+// Simple HTTP server to keep the project awake on platforms like Glitch
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('AFK bot is running');
+}).listen(PORT, () => {
+  console.log(`HTTP server listening on port ${PORT}`);
+});
+
+// Create bot in offline mode (for cracked servers)
 const bot = mineflayer.createBot({
   host: serverIP,
   port: serverPort,
@@ -18,7 +28,7 @@ bot.on('login', () => {
 });
 
 bot.on('spawn', () => {
-  console.log('Bot spawned in the world. Starting AFK movement...');
+  console.log('Bot spawned. Starting anti-AFK movement...');
   startAntiAFK();
 });
 
@@ -31,6 +41,7 @@ bot.on('error', (err) => {
   console.log(`Error: ${err.message}`);
 });
 
+// Performs a random action to avoid AFK kick
 function randomAction() {
   const actions = ['jump', 'look'];
   const choice = actions[Math.floor(Math.random() * actions.length)];
@@ -47,6 +58,7 @@ function randomAction() {
   }
 }
 
+// Trigger randomAction every 8 seconds
 function startAntiAFK() {
   setInterval(randomAction, 8000);
 }
