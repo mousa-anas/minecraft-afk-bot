@@ -15,34 +15,36 @@ http.createServer((req, res) => {
   console.log(`HTTP server listening on port ${PORT}`);
 });
 
-// Create bot in offline mode (for cracked servers)
-const bot = mineflayer.createBot({
-  host: serverIP,
-  port: serverPort,
-  username: botUsername,
-  auth: 'offline',
-});
+function createBot() {
+  const bot = mineflayer.createBot({
+    host: serverIP,
+    port: serverPort,
+    username: botUsername,
+    auth: 'offline',
+  });
 
-bot.on('login', () => {
-  console.log(`Logged in as ${bot.username}`);
-});
+  bot.on('login', () => {
+    console.log(`Logged in as ${bot.username}`);
+  });
 
-bot.on('spawn', () => {
-  console.log('Bot spawned. Starting anti-AFK movement...');
-  startAntiAFK();
-});
+  bot.on('spawn', () => {
+    console.log('Bot spawned. Starting anti-AFK movement...');
+    startAntiAFK(bot);
+  });
 
-bot.on('end', (reason) => {
-  console.log(`Disconnected: ${reason}`);
-  process.exit(0);
-});
+  bot.on('end', (reason) => {
+    console.log(`Disconnected: ${reason}. Reconnecting in 10 seconds...`);
+    setTimeout(createBot, 10000); // Reconnect after 10 seconds
+  });
 
-bot.on('error', (err) => {
-  console.log(`Error: ${err.message}`);
-});
+  bot.on('error', (err) => {
+    console.log(`Error: ${err.message}`);
+  });
 
-// Performs a random action to avoid AFK kick
-function randomAction() {
+  return bot;
+}
+
+function randomAction(bot) {
   const actions = ['jump', 'look'];
   const choice = actions[Math.floor(Math.random() * actions.length)];
 
@@ -58,7 +60,9 @@ function randomAction() {
   }
 }
 
-// Trigger randomAction every 8 seconds
-function startAntiAFK() {
-  setInterval(randomAction, 8000);
+function startAntiAFK(bot) {
+  setInterval(() => randomAction(bot), 8000);
 }
+
+// Start the first bot instance
+createBot();
