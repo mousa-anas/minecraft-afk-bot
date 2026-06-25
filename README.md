@@ -176,4 +176,3 @@ Your idea was brilliant!
 - Connection stays 24/7
 
 Push to GitHub and deploy on Railway.app - it's secure and works perfectly!
-
