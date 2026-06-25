@@ -2,10 +2,10 @@ const mineflayer = require('mineflayer');
 
 // Configuration
 const config = {
-  host: process.env.SERVER_HOST || 'localhost',
-  port: parseInt(process.env.SERVER_PORT || 25565),
+  host: process.env.SERVER_HOST || 'servivelcraft.aternos.me',
+  port: parseInt(process.env.SERVER_PORT || 42987),
   username: process.env.BOT_USERNAME || 'AFKBot',
-  version: process.env.MC_VERSION || '1.20.4',
+  version: process.env.MC_VERSION || '26.1.2',
   offline: true // Set to false if your server uses authentication
 };
 
