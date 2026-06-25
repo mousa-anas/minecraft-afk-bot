@@ -39,56 +39,45 @@ node bot.js
 
 ---
 
-Configuration:
+Deployment on Railway.app:
 
-Method 1 - Environment Variables:
-
-export SERVER_HOST="your-server.aternos.me"
-export SERVER_PORT="25565"
-export BOT_USERNAME="AFKBot"
-export MC_VERSION="1.20.4"
-
-npm start
-
-Method 2 - Direct Code Edit:
-
-At the beginning of bot.js:
-
-const config = {
-  host: 'your-server.aternos.me',
-  port: 25565,
-  username: 'AFKBot',
-  version: '1.20.4',
-  offline: true  // Change to false if you have auth
-};
-
----
-
-Deployment on cyclic.sh:
-
-Step 1: Save files to GitHub
+Step 1: Push files to GitHub
 
 your-repo/
 ├── bot.js
 ├── package.json
-└── .env (if needed)
+└── README.md
 
-Step 2: Connect cyclic.sh with your repo
+Step 2: Connect Railway with GitHub
 
-1. Go to cyclic.sh
-2. Click "Deploy from Git"
-3. Select your repo
-4. Click Deploy
+1. Go to https://railway.app
+2. Click "New Project"
+3. Select "Deploy from GitHub repo"
+4. Authorize Railway to access your GitHub
+5. Select your minecraft-afk-bot repository
+6. Click Deploy
 
-Step 3: Add environment variables
+Step 3: Add Environment Variables
 
-In cyclic.sh Dashboard:
-- SERVER_HOST = server address
-- SERVER_PORT = 25565
-- BOT_USERNAME = bot name
-- MC_VERSION = Minecraft version
+In Railway Dashboard:
 
-Step 4: Monitor the logs
+1. Go to your Project
+2. Click "Variables" tab
+3. Add these variables:
+
+SERVER_HOST=your-server.aternos.me
+SERVER_PORT=25565
+BOT_USERNAME=AFKBot
+MC_VERSION=1.20.4
+
+4. Click "Deploy"
+
+Step 4: Monitor the Bot
+
+In Railway Dashboard:
+
+1. Click "Deployments" tab
+2. View logs in real-time:
 
 [SUCCESS] Bot logged in as AFKBot
 [INFO] Starting AFK Loop...
@@ -96,6 +85,17 @@ Step 4: Monitor the logs
 [WARNING] Stuck! Counter: 1
 [ACTION] Turning around! Current direction: forward
 [SUCCESS] Turned around! Now facing: backward
+
+---
+
+Configuration:
+
+If you want to edit variables later:
+
+1. Go to Railway Dashboard
+2. Click "Variables"
+3. Update any value
+4. Click "Deploy" to restart
 
 ---
 
@@ -128,27 +128,42 @@ Important Notes:
 
 ---
 
-Final Usage:
+Troubleshooting:
 
-# Run locally
-npm start
+If bot doesn't connect:
 
-# Run on cyclic.sh (automatic)
-# Every push → bot runs
+1. Check variables in Railway:
+   - SERVER_HOST correct?
+   - SERVER_PORT correct?
 
-# Stop bot
-Ctrl + C
+2. Check Aternos:
+   - Is Offline Mode enabled?
+   - Is server online?
+
+3. View logs:
+   - Railway Dashboard → Deployments → Logs
+   - Look for error messages
+
+4. Restart deployment:
+   - Click "Redeploy" in Railway
 
 ---
 
-Debugging:
+Local Testing:
 
-If bot doesn't work:
+Before deploying to Railway, test locally:
 
-// Add more logs:
-console.log(`Position: ${bot.entity.position}`);
-console.log(`Direction: ${direction}`);
-console.log(`Yaw: ${bot.entity.yaw}`);
+# Install dependencies
+npm install
+
+# Set environment variables
+export SERVER_HOST="your-server.aternos.me"
+export SERVER_PORT="25565"
+export BOT_USERNAME="AFKBot"
+export MC_VERSION="1.20.4"
+
+# Run bot
+npm start
 
 ---
 
@@ -160,4 +175,5 @@ Your idea was brilliant!
 - Simple and effective
 - Connection stays 24/7
 
-Now push to GitHub and run bot on cyclic.sh!
+Push to GitHub and deploy on Railway.app - it's secure and works perfectly!
+
