@@ -1,12 +1,23 @@
 {
-  "name": "afkbot",
-  "version": "1.0.0",
-  "description": "AFK bot for Minecraft servers (offline mode)",
+  "name": "minecraft-afk-bot",
+  "version": "2.0.0",
+  "description": "Minecraft AFK bot that walks forward, detects walls, and turns around automatically",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "dev": "node bot.js"
   },
   "dependencies": {
-    "mineflayer": "^4.0.0"
-  }
+    "mineflayer": "^4.10.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "minecraft",
+    "afk",
+    "bot",
+    "aternos",
+    "mineflayer"
+  ],
+  "author": "Anas",
+  "license": "MIT"
 }
